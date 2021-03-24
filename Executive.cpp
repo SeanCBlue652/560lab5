@@ -14,17 +14,23 @@ void Executive::run()
 
         std::string input;
         int currentInputType = RESTAURANT;
-        int numberOfInputs = 0;
+        int numberOfMaxInputs = 0;
+        int numberOfMinInputs = 0;
 
+        // I am giving them a larger possible capacity than I anticipate needing.
         Restaurant maxHeap[100];
         Restaurant minHeap[100];
+
+        std::string name = "";
+        double dist = 0.0;
+        int rev = 0;
 
         while (m_dataFile >> input)
         {
             Restaurant newRestaurant;
             if (currentInputType == RESTAURANT)
             {
-                std::string name = "";
+                name = "";
                 if (containsComma(input))
                 {
                     name = removeTrailingComma(input);
@@ -49,7 +55,7 @@ void Executive::run()
             }
             else if (currentInputType == DISTANCE)
             {
-                double dist = 0.0;
+                dist = 0.0;
                 input = removeTrailingComma(input);
                 dist = std::stod(input);
                 newRestaurant.distance = dist;
@@ -57,18 +63,23 @@ void Executive::run()
             }
             else if (currentInputType == REVIEW)
             {
-                int rev = 0;
+                rev = 0;
                 input = removeTrailingComma(input);
                 rev = std::stoi(input);
                 newRestaurant.reviews = rev;
                 currentInputType = RESTAURANT;
             }
-            maxHeap[numberOfInputs] = newRestaurant;
-            numberOfInputs = numberOfInputs+1;
+            maxHeap[numberOfMaxInputs] = newRestaurant;
+            numberOfMaxInputs = numberOfMaxInputs+1;
+
+            minHeap[numberOfMinInputs] = newRestaurant;
+            numberOfMinInputs = numberOfMinInputs+1;
         }
 
-        buildMaxHeap(maxHeap, numberOfInputs);
-        buildMinHeap(minHeap, numberOfInputs);
+        buildMaxHeap(maxHeap, numberOfMaxInputs);
+        buildMinHeap(minHeap, numberOfMinInputs);
+
+        Restaurant insertRestaurant;
 
         bool exit = false;
         while (!exit)
@@ -83,9 +94,27 @@ void Executive::run()
             switch (choice)
             {
             case 1:
-                std::cout << "Please enter the integer to add:\n";
-                std::cin >> input;
-
+                std::cout << "Please enter the restaurant name:\n";
+                std::cin >> name;
+                std::cout << "Please enter the distance to the restaurant:\n";
+                std::cin >> dist;
+                while (dist < 0.0)
+                {
+                    std::cout << "Please enter a distance greater than 0.0:\n";
+                    std::cin >> dist;
+                }
+                std::cout << "Please enter the number of reviews for the restaurant:\n";
+                std::cin >> rev;
+                while (rev < 0)
+                {
+                    std::cout << "Please enter an integer greater than 0:\n";
+                    std::cin >> dist;
+                }
+                insertRestaurant.name = name;
+                insertRestaurant.distance = dist;
+                insertRestaurant.reviews = rev;
+                maxInsert(maxHeap, &numberOfMaxInputs, insertRestaurant);
+                minInsert(minHeap, &numberOfMinInputs, insertRestaurant);
                 break;
             case 2:
                 std::cout << "Please enter the integer to delete:\n";
