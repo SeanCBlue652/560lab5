@@ -27,6 +27,7 @@ void Executive::run()
         std::string name = "";
         double dist = 0.0;
         int rev = 0;
+        bool nameIsUnused = true;
 
         while (m_dataFile >> input)
         {
@@ -73,7 +74,7 @@ void Executive::run()
                 currentInputType = RESTAURANT;
             }
 
-            bool nameIsUnused = true;
+            nameIsUnused = true;
             for (size_t i = 0; i < usedNamesOpenIndex || !nameIsUnused; i++)
             {
                 if (usedNames[usedNamesOpenIndex] == name)
@@ -102,7 +103,7 @@ void Executive::run()
         buildMaxHeap(maxHeap, numberOfMaxInputs);
         buildMinHeap(minHeap, numberOfMinInputs);
 
-        Restaurant insertRestaurant;
+        Restaurant menuRestaurant;
 
         bool exit = false;
         while (!exit)
@@ -133,31 +134,96 @@ void Executive::run()
                     std::cout << "Please enter an integer greater than 0:\n";
                     std::cin >> dist;
                 }
-                insertRestaurant.name = name;
-                insertRestaurant.distance = dist;
-                insertRestaurant.reviews = rev;
-                maxInsert(maxHeap, &numberOfMaxInputs, insertRestaurant);
-                minInsert(minHeap, &numberOfMinInputs, insertRestaurant);
+                menuRestaurant.name = name;
+                menuRestaurant.distance = dist;
+                menuRestaurant.reviews = rev;
+
+                nameIsUnused = true;
+                for (size_t i = 0; i < usedNamesOpenIndex || !nameIsUnused; i++)
+                {
+                    if (usedNames[usedNamesOpenIndex] == name)
+                    {
+                        nameIsUnused = false;
+                    }
+                }
+
+                if (nameIsUnused)
+                {
+                    maxInsert(maxHeap, &numberOfMaxInputs, menuRestaurant);
+                    minInsert(minHeap, &numberOfMinInputs, menuRestaurant);
+                    std::cout << name << ", " << dist << ", " << rev << " has been successfully inserted.\n";
+                }
+                else
+                {
+                    std::cout << "Unable to add '" << name << "' to the heaps. Duplicate names are not allowed.\n";
+                }
+
                 break;
             case 2:
-                std::cout << "Please enter the integer to delete:\n";
-                std::cin >> input;
+                if (numberOfMaxInputs > 0)
+                {
+
+                    menuRestaurant = popMin(minHeap, &numberOfMinInputs);
+                    std::cout << "Removed " << menuRestaurant.name << ", " << menuRestaurant.distance << ", " << menuRestaurant.reviews << " from the minHeap.\n";
+                }
+                else
+                {
+                    std::cout << "Cannot remove from an empty heap.\n";
+                }
 
                 break;
             case 3:
+                if (numberOfMinInputs > 0)
+                {
+                    menuRestaurant = popMax(maxHeap, &numberOfMaxInputs);
+                    std::cout << "Removed " << menuRestaurant.name << ", " << menuRestaurant.distance << ", " << menuRestaurant.reviews << " from the maxHeap.\n";
+                }
+                else
+                {
+                    std::cout << "Cannot remove from an empty heap.\n";
+                }
 
                 break;
             case 4:
-
+                if (numberOfMaxInputs > 0)
+                {
+                    menuRestaurant = popMin(minHeap, &numberOfMinInputs);
+                    std::cout << "Nearest restraunt: " << menuRestaurant.name << ", " << menuRestaurant.distance << ", " << menuRestaurant.reviews << std::endl;
+                    minInsert(minHeap, &numberOfMinInputs, menuRestaurant);
+                }
+                else
+                {
+                    std::cout << "Cannot search an empty heap.\n";
+                }
                 break;
             case 5:
-
+                if (numberOfMinInputs > 0)
+                {
+                    menuRestaurant = popMax(maxHeap, &numberOfMaxInputs);
+                    std::cout << "Most reviewed restaurant: " << menuRestaurant.name << ", " << menuRestaurant.distance << ", " << menuRestaurant.reviews << std::endl;
+                    maxInsert(maxHeap, &numberOfMaxInputs, menuRestaurant);
+                }
+                else
+                {
+                    std::cout << "Cannot search an empty heap.\n";
+                }
                 break;
             case 6:
+                std::cout << "By distance" << std::endl;
+                for (size_t i = 0; i < numberOfMinInputs - 1; i++)
+                {
+                    std::cout << minHeap[i].name << " : ";
+                }
+                std::cout << minHeap[numberOfMinInputs - 1].name << std::endl;
 
                 break;
             case 7:
-
+                std::cout << "By reviews" << std::endl;
+                for (size_t i = 0; i < numberOfMaxInputs - 1; i++)
+                {
+                    std::cout << maxHeap[i].name << " : ";
+                }
+                std::cout << maxHeap[numberOfMaxInputs - 1].name << std::endl;
                 break;
             case 8:
                 exit = true;
@@ -225,15 +291,15 @@ void Executive::maxHeapify(Restaurant arr[], int length, int index)
             }
         }
 
-        double max_child = -1.0;
+        int max_child = -1;
         int max_child_index;
         for (int i = 1; i <= 3; i++)
         {
             if (children[i] != -1 &&
-                arr[children[i]].distance > max_child)
+                arr[children[i]].reviews > max_child)
             {
                 max_child_index = children[i];
-                max_child = arr[children[i]].distance;
+                max_child = arr[children[i]].reviews;
             }
         }
 
@@ -242,7 +308,7 @@ void Executive::maxHeapify(Restaurant arr[], int length, int index)
             break;
         }
 
-        if (arr[index].distance < arr[max_child_index].distance)
+        if (arr[index].reviews < arr[max_child_index].reviews)
         {
             swap(arr[index], arr[max_child_index]);
         }
@@ -269,16 +335,16 @@ void Executive::minHeapify(Restaurant arr[], int length, int index)
                 children[i] = -1;
             }
         }
-        int min_child = -1;
+        double min_child = -1.0;
         int min_child_index;
 
         for (int i = 1; i <= 3; i++)
         {
             if (children[i] != -1 &&
-                arr[children[i]].reviews < min_child)
+                arr[children[i]].distance < min_child)
             {
                 min_child_index = children[i];
-                min_child = arr[children[i]].reviews;
+                min_child = arr[children[i]].distance;
             }
         }
 
@@ -287,7 +353,7 @@ void Executive::minHeapify(Restaurant arr[], int length, int index)
             break;
         }
 
-        if (arr[index].reviews > arr[min_child_index].reviews)
+        if (arr[index].distance > arr[min_child_index].distance)
         {
             swap(arr[index], arr[min_child_index]);
         }
@@ -301,7 +367,7 @@ void Executive::maxUpHeap(Restaurant arr[], int index)
 
     while (parent >= 0)
     {
-        if (arr[index].distance > arr[parent].distance)
+        if (arr[index].reviews > arr[parent].reviews)
         {
             swap(arr[index], arr[parent]);
             index = parent;
@@ -321,7 +387,7 @@ void Executive::minUpHeap(Restaurant arr[], int index)
 
     while (parent >= 0)
     {
-        if (arr[index].reviews < arr[parent].reviews)
+        if (arr[index].distance < arr[parent].distance)
         {
             swap(arr[index], arr[parent]);
             index = parent;
