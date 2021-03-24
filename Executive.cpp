@@ -233,7 +233,7 @@ void Executive::run()
                        std::cout << maxHeap[i].name << " : ";
                     }  
                 }
-                if (!(maxHeap[numberOfMaxInputs - 1].name.name == "-1"))
+                if (!(maxHeap[numberOfMaxInputs - 1].name == "-1"))
                     {
                        std::cout << maxHeap[numberOfMaxInputs - 1].name << std::endl;
                     }  else {
