@@ -251,7 +251,7 @@ std::string Executive::removeTrailingComma(std::string input)
     if (input[input.length() - 1] == ',')
     {
         std::string temp = "";
-        for (int i = 0; i < input.length() - 1; i++)
+        for (size_t i = 0; i < input.length() - 1; i++)
         {
             temp = temp + input[i];
         }
@@ -263,7 +263,7 @@ std::string Executive::removeTrailingComma(std::string input)
 
 bool Executive::containsComma(std::string input)
 {
-    for (int i = 0; i < input.length(); i++)
+    for (size_t i = 0; i < input.length(); i++)
     {
         if (input[i] == ',')
         {
