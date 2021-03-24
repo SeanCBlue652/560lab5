@@ -13,6 +13,16 @@ void Executive::run()
 
         while (m_dataFile >> input)
         {
+            if (input[input.length()-1] == ',')
+            {
+                std::string temp = "";
+                for (size_t i = 0; i < input.length()-1; i++)
+                {
+                    temp = temp + input[i];
+                }
+                input = temp;
+            }
+            
             std::cout << std::endl << input << std::endl;
         }
 
