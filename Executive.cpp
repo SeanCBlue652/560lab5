@@ -8,7 +8,7 @@ void Executive::run()
     if (m_dataFile.is_open())
     {
 
-        int input;
+        std::string input;
         
 
         while (m_dataFile >> input)
