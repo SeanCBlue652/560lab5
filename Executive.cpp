@@ -14,9 +14,14 @@ void Executive::run()
 
         std::string input;
         int currentInputType = RESTAURANT;
+        int numberOfInputs = 0;
+
+        Restaurant maxHeap[100];
+        Restaurant minHeap[100];
 
         while (m_dataFile >> input)
         {
+            Restaurant newRestaurant;
             if (currentInputType == RESTAURANT)
             {
                 std::string name = "";
@@ -39,7 +44,7 @@ void Executive::run()
                     }
                     name = removeTrailingComma(name);
                 }
-                std::cout << "Name: " << name << std::endl;
+                newRestaurant.name = name;
                 currentInputType = DISTANCE;
             }
             else if (currentInputType == DISTANCE)
@@ -47,7 +52,7 @@ void Executive::run()
                 double dist = 0.0;
                 input = removeTrailingComma(input);
                 dist = std::stod(input);
-                std::cout << "Distance: " << dist << std::endl;
+                newRestaurant.distance = dist;
                 currentInputType = REVIEW;
             }
             else if (currentInputType == REVIEW)
@@ -55,10 +60,15 @@ void Executive::run()
                 int rev = 0;
                 input = removeTrailingComma(input);
                 rev = std::stoi(input);
-                std::cout << "Reviews: " << rev << std::endl;
+                newRestaurant.reviews = rev;
                 currentInputType = RESTAURANT;
             }
+            maxHeap[numberOfInputs] = newRestaurant;
+            numberOfInputs = numberOfInputs+1;
         }
+
+        buildMaxHeap(maxHeap, numberOfInputs);
+        buildMinHeap(minHeap, numberOfInputs);
 
         bool exit = false;
         while (!exit)
