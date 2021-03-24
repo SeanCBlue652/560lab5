@@ -9,21 +9,10 @@ void Executive::run()
     {
 
         std::string input;
-        
 
         while (m_dataFile >> input)
         {
-            if (input[input.length()-1] == ',')
-            {
-                std::string temp = "";
-                for (size_t i = 0; i < input.length()-1; i++)
-                {
-                    temp = temp + input[i];
-                }
-                input = temp;
-            }
-            
-            std::cout << std::endl << input << std::endl;
+            std::cout << removeTrailingComma(input) << std::endl;
         }
 
         bool exit = false;
@@ -41,27 +30,27 @@ void Executive::run()
             case 1:
                 std::cout << "Please enter the integer to add:\n";
                 std::cin >> input;
-                
+
                 break;
             case 2:
                 std::cout << "Please enter the integer to delete:\n";
                 std::cin >> input;
-                
+
                 break;
             case 3:
-                
+
                 break;
             case 4:
-                
+
                 break;
             case 5:
-               
+
                 break;
             case 6:
-               
+
                 break;
             case 7:
-                
+
                 break;
             case 8:
                 exit = true;
@@ -84,3 +73,17 @@ void Executive::run()
     }
 }
 
+std::string Executive::removeTrailingComma(std::string input)
+{
+    if (input[input.length() - 1] == ',')
+    {
+        std::string temp = "";
+        for (size_t i = 0; i < input.length() - 1; i++)
+        {
+            temp = temp + input[i];
+        }
+        
+        return(temp);
+    }
+    return(input);
+}
