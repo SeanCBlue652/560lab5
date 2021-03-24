@@ -130,6 +130,7 @@ bool Executive::containsComma(std::string input)
 {
     for (size_t i = 0; i < input.length(); i++)
     {
+        std::cout << input[i];
         if (input[i] == ',')
         {
             return(true);
