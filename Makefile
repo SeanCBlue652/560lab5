@@ -4,7 +4,7 @@ lab05: main.o Executive.o
 main.o: main.cpp Executive.h
 	g++ -std=c++11 -g -Wall -c main.cpp
 
-Executive.o: Executive.h Executive.cpp Node.h
+Executive.o: Executive.h Executive.cpp Node.h Restaurant.h
 	g++ -std=c++11 -g -Wall -c Executive.cpp
 
 
