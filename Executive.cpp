@@ -75,7 +75,7 @@ void Executive::run()
             }
 
             nameIsUnused = true;
-            for (size_t i = 0; i < usedNamesOpenIndex || !nameIsUnused; i++)
+            for (int i = 0; i < usedNamesOpenIndex || !nameIsUnused; i++)
             {
                 if (usedNames[usedNamesOpenIndex] == name)
                 {
@@ -139,7 +139,7 @@ void Executive::run()
                 menuRestaurant.reviews = rev;
 
                 nameIsUnused = true;
-                for (size_t i = 0; i < usedNamesOpenIndex || !nameIsUnused; i++)
+                for (int i = 0; i < usedNamesOpenIndex || !nameIsUnused; i++)
                 {
                     if (usedNames[usedNamesOpenIndex] == name)
                     {
@@ -210,7 +210,7 @@ void Executive::run()
                 break;
             case 6:
                 std::cout << "By distance" << std::endl;
-                for (size_t i = 0; i < numberOfMinInputs - 1; i++)
+                for (int i = 0; i < numberOfMinInputs - 1; i++)
                 {
                     std::cout << minHeap[i].name << " : ";
                 }
@@ -219,7 +219,7 @@ void Executive::run()
                 break;
             case 7:
                 std::cout << "By reviews" << std::endl;
-                for (size_t i = 0; i < numberOfMaxInputs - 1; i++)
+                for (int i = 0; i < numberOfMaxInputs - 1; i++)
                 {
                     std::cout << maxHeap[i].name << " : ";
                 }
@@ -251,7 +251,7 @@ std::string Executive::removeTrailingComma(std::string input)
     if (input[input.length() - 1] == ',')
     {
         std::string temp = "";
-        for (size_t i = 0; i < input.length() - 1; i++)
+        for (int i = 0; i < input.length() - 1; i++)
         {
             temp = temp + input[i];
         }
@@ -263,7 +263,7 @@ std::string Executive::removeTrailingComma(std::string input)
 
 bool Executive::containsComma(std::string input)
 {
-    for (size_t i = 0; i < input.length(); i++)
+    for (int i = 0; i < input.length(); i++)
     {
         if (input[i] == ',')
         {
