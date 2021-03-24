@@ -1,5 +1,9 @@
 #include "Executive.h"
 
+#define RESTAURANT 1
+#define DISTANCE 2
+#define REVIEW 3
+
 void Executive::run()
 {
 
@@ -9,10 +13,40 @@ void Executive::run()
     {
 
         std::string input;
+        int currentInputType = RESTAURANT;
 
         while (m_dataFile >> input)
         {
-            std::cout << removeTrailingComma(input) << std::endl;
+            if (currentInputType == RESTAURANT)
+            {
+                std::string name = "";
+                if (containsComma(input)) {
+                    name = removeTrailingComma(input);
+                } else {
+                    while (!containsComma(name))
+                    {
+                        name = name + input;
+                        m_dataFile >> input;
+                        name = name + " ";
+                    }
+                    name = removeTrailingComma(name);
+                }
+                std::cout << "Name: " << name << std::endl;
+                currentInputType = DISTANCE;
+            } else if (currentInputType == DISTANCE) {
+                double dist = 0.0;
+                input = removeTrailingComma(input);
+                dist = std::stod(input);
+                std::cout << "Distance: " << dist << std::endl;
+                currentInputType = REVIEW;
+            } else if (currentInputType == REVIEW) {
+                int rev = 0;
+                input = removeTrailingComma(input);
+                rev = std::stoi(input);
+                std::cout << "Reviews: " << rev << std::endl;
+                currentInputType = RESTAURANT;
+            }
+            
         }
 
         bool exit = false;
@@ -73,6 +107,8 @@ void Executive::run()
     }
 }
 
+
+
 std::string Executive::removeTrailingComma(std::string input)
 {
     if (input[input.length() - 1] == ',')
@@ -86,4 +122,17 @@ std::string Executive::removeTrailingComma(std::string input)
         return(temp);
     }
     return(input);
+}
+
+bool Executive::containsComma(std::string input)
+{
+    for (size_t i = 0; i < input.length(); i++)
+    {
+        if (input[i] == ',')
+        {
+            return(true);
+        }
+        
+    }
+    return(false);
 }

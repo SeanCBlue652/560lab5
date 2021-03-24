@@ -10,6 +10,7 @@ private:
     std::fstream m_dataFile;
     std::string m_fileName;
     std::string removeTrailingComma(std::string input);
+    bool containsComma(std::string input);
 
 public:
     Executive(std::string fileName) { m_fileName = fileName; };
