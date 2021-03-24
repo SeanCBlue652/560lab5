@@ -21,6 +21,9 @@ void Executive::run()
         Restaurant maxHeap[100];
         Restaurant minHeap[100];
 
+        std::string usedNames[100];
+        int usedNamesOpenIndex = 0;
+
         std::string name = "";
         double dist = 0.0;
         int rev = 0;
@@ -69,11 +72,31 @@ void Executive::run()
                 newRestaurant.reviews = rev;
                 currentInputType = RESTAURANT;
             }
-            maxHeap[numberOfMaxInputs] = newRestaurant;
-            numberOfMaxInputs = numberOfMaxInputs+1;
 
-            minHeap[numberOfMinInputs] = newRestaurant;
-            numberOfMinInputs = numberOfMinInputs+1;
+            bool nameIsUnused = true;
+            for (size_t i = 0; i < usedNamesOpenIndex || !nameIsUnused; i++)
+            {
+                if (usedNames[usedNamesOpenIndex] == name)
+                {
+                    nameIsUnused = false;
+                }
+            }
+
+            if (nameIsUnused)
+            {
+                maxHeap[numberOfMaxInputs] = newRestaurant;
+                numberOfMaxInputs = numberOfMaxInputs + 1;
+
+                minHeap[numberOfMinInputs] = newRestaurant;
+                numberOfMinInputs = numberOfMinInputs + 1;
+
+                usedNames[usedNamesOpenIndex] = name;
+                usedNamesOpenIndex = usedNamesOpenIndex;
+            }
+            else
+            {
+                std::cout << "Unable to add '" << name << "' to the heaps. Duplicate names are not allowed.\n";
+            }
         }
 
         buildMaxHeap(maxHeap, numberOfMaxInputs);
