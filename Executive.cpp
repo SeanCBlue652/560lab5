@@ -217,8 +217,12 @@ void Executive::run()
                        std::cout << minHeap[i].name << " : ";
                     }  
                 }
-                std::cout << minHeap[numberOfMinInputs - 1].name << std::endl;
-
+                if (!(minHeap[numberOfMinInputs - 1].name == "-1"))
+                    {
+                       std::cout << minHeap[numberOfMinInputs - 1].name << std::endl;
+                    }  else {
+                        std::cout << std::endl;
+                    }
                 break;
             case 7:
                 std::cout << "By reviews" << std::endl;
@@ -229,7 +233,12 @@ void Executive::run()
                        std::cout << maxHeap[i].name << " : ";
                     }  
                 }
-                std::cout << maxHeap[numberOfMaxInputs - 1].name << std::endl;
+                if (!(maxHeap[numberOfMaxInputs - 1].name.name == "-1"))
+                    {
+                       std::cout << maxHeap[numberOfMaxInputs - 1].name << std::endl;
+                    }  else {
+                        std::cout << std::endl;
+                    }
                 break;
             case 8:
                 exit = true;
