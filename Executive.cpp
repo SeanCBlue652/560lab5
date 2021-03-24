@@ -23,9 +23,14 @@ void Executive::run()
                 if (containsComma(input)) {
                     name = removeTrailingComma(input);
                 } else {
-                    while (!containsComma(name))
+                    while (1)
                     {
                         name = name + input;
+                        if (containsComma(name))
+                        {
+                            break;
+                        }
+                        
                         std::cout << "\nNAME: " << name << "\nINPUT: " << input;
                         m_dataFile >> input;
                         std::cout << "\nNAME: " << name << "\nINPUT: " << input;
