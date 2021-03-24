@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <math>
 #include "Restaurant.h"
 
 class Executive
