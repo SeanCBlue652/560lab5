@@ -8,7 +8,7 @@ class Restaurant
     
     public:
     Restaurant() {};
-    std::string name = "";
+    std::string name = "-1";
     double distance = 0.0;
     int reviews = 0;
 };

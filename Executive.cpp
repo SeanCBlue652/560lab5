@@ -212,7 +212,10 @@ void Executive::run()
                 std::cout << "By distance" << std::endl;
                 for (int i = 0; i < numberOfMinInputs - 1; i++)
                 {
-                    std::cout << minHeap[i].name << " : ";
+                    if (!(minHeap[i].name == "-1"))
+                    {
+                       std::cout << minHeap[i].name << " : ";
+                    }  
                 }
                 std::cout << minHeap[numberOfMinInputs - 1].name << std::endl;
 
@@ -221,7 +224,10 @@ void Executive::run()
                 std::cout << "By reviews" << std::endl;
                 for (int i = 0; i < numberOfMaxInputs - 1; i++)
                 {
-                    std::cout << maxHeap[i].name << " : ";
+                    if (!(maxHeap[i].name == "-1"))
+                    {
+                       std::cout << maxHeap[i].name << " : ";
+                    }  
                 }
                 std::cout << maxHeap[numberOfMaxInputs - 1].name << std::endl;
                 break;
