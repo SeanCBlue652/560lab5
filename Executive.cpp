@@ -31,9 +31,7 @@ void Executive::run()
                             break;
                         }
                         
-                        std::cout << "\nNAME: " << name << "\nINPUT: " << input;
                         m_dataFile >> input;
-                        std::cout << "\nNAME: " << name << "\nINPUT: " << input;
                         name = name + " ";
                     }
                     name = removeTrailingComma(name);
